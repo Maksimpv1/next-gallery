@@ -1,0 +1,1 @@
+# slmax-react-next-testovoe-zadanie-v2
