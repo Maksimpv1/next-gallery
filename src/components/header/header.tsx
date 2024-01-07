@@ -1,24 +1,52 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from 'next/image';
-import { HeaderContainer, HeaderList } from "./styles"
 import { TextField } from "@mui/material"
 import logo from '../../../public/logo.jpg'
 
+import { NavLink } from "./navLinks/navLink"
+import styles from "./header.module.css"
+import { HeaderLinkData } from "./headerLinkDate";
+import Link from "next/link";
+
 export const Header = () => {
-    const [active, setActive] = useState("")
-    const [toggle, setToggle] = useState(false)
+    const [active, setActive] = useState<string>("")
+    const [toggle, setToggle] = useState<boolean>(false)
+
+    const [logValue, setLog] = useState<boolean>(false)
+
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+      const handleScroll = () => {
+        if (window.scrollY > 100) {
+          setScrolled(true);
+        } else {
+          setScrolled(false);
+        }
+      };
+  
+        window.addEventListener('scroll', handleScroll);
+  
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, []);
+
     return (
-        <HeaderContainer><i></i>
+        <div className={!scrolled ? styles.header_container : styles.header_Scrolled}>
             <div>
-                <Image src={ logo } style={{ width:'80px', height:'60px' }} alt="Logo"/>
+                <Link href='/' ><Image src={ logo } style={{ width:'80px', height:'60px' }} alt="Logo"/></Link>
             </div>
-            <ul style={{ display:'flex' }}>
-                <HeaderList>Main</HeaderList>
-                <HeaderList>Profile</HeaderList>
-            </ul>
-            <TextField fullWidth label="Search" id="fullWidth" style={{ width: '300px', height: '50px' }}/>
-        </HeaderContainer>
+            <div className={styles.header_left}>
+                {HeaderLinkData.map((item, index)=>(
+                    <NavLink item={item} key={index}/>
+                    ))}
+                {!logValue ? <button className={styles.login_button}>Login</button>
+                : <button className={styles.login_button}>Logout</button>}
+            </div>
+            <TextField fullWidth label="Search" id="fullWidth" style={{ width: '300px', height: '50px', margin: '0 30px 0 30px' }}/>
+        </div>
     )
 }

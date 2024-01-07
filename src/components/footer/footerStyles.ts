@@ -10,6 +10,7 @@ export const FooterContain = styled.div`
     box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.25);
     position: fixed;
     bottom: 0;
+    background-color: #FFFFFF;
 `;
 export const FooterLink = styled.a`
     cursor: pointer;

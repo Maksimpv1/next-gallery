@@ -1,0 +1,22 @@
+.handle__sort{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    width: 100px;
+    height: 40px;
+    margin: 30px 30px;
+    border-radius: 15px;    
+    transition: 0.3s ease-in-out;
+}
+
+.handle__sort:hover{
+    color: #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.548);
+    transition: 0.3s ease-in-out;
+}
+
+.active{    
+    color: #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.548);
+}
