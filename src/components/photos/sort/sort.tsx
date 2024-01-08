@@ -1,27 +1,32 @@
 import { SortAllData } from "./sortData"
 import styles from './sort.module.css'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { AppDispatch } from "@/redux/store/store"
-import { getPhotos } from "@/redux/reducers/gallery"
+import { AppDispatch, useAppSelectorType } from "@/redux/store/store"
+import { getPhotos, setPage, setSearchValue } from "@/redux/reducers/gallery"
 
-interface ISortAllPhotos {
-    currentPage: number;
-}
-
-
-export const SortAllPhotos = (props: ISortAllPhotos) => {
+export const SortAllPhotos = () => {
     const [btnActive, setBtnActive] = useState<number>(0);
+
+    const [querValue, setQuerValue] = useState<string>('all');
+
+    const page = useAppSelectorType((state)=> state.gallery.pageNumber)
+
     const dispatch = useDispatch<AppDispatch>();
 
-    const handleClick = (item: number, name: string) => {
+    const handleClick = (item: number, name: string) => {        
+        dispatch(setSearchValue(name))
         setBtnActive(item);
-        if (name === 'Cброс') {
-            dispatch(getPhotos({ page: props.currentPage, sortValue: 'defaultSortValue' }));
-        } else {
-            dispatch(getPhotos({ page: props.currentPage, sortValue: name }));
-        }
+        setQuerValue(name);
+        dispatch(setPage(0))
+        dispatch(getPhotos({ page: 1}));
+        
     }
+
+    useEffect(() => {
+        dispatch(setSearchValue(querValue))
+        dispatch(getPhotos({ page: page }));
+    }, [page, dispatch]);
 
     return (
         <>

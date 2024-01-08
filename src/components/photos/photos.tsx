@@ -6,7 +6,7 @@ import styles from './photos.module.css'
 import { SortAllPhotos } from './sort/sort'
 import { useDispatch } from 'react-redux'
 import { AppDispatch, useAppSelectorType } from '@/redux/store/store'
-import { getPhotos } from '@/redux/reducers/gallery'
+import { getPhotos, setPage } from '@/redux/reducers/gallery'
 import { Box, CircularProgress } from '@mui/material'
 
 export const Photos = () => {
@@ -14,29 +14,26 @@ export const Photos = () => {
 
     const loadingPhotos = useAppSelectorType((state)=> state.gallery.loadingPhotos)
 
-    const [page, setPage] = useState<number>(1);
+    const page = useAppSelectorType((state)=> state.gallery.pageNumber)
+
 
     const [disableBtn, setDisableBtn] = useState<boolean>(false);
 
 
     useEffect(() => {
-        dispatch(getPhotos({ page, sortValue: "defaultSortValue" }));
         if (page <= 1) {
             setDisableBtn(true);
         } else {
             setDisableBtn(false);
         }
-    }, [page, dispatch]);
+    }, [page]);
 
     const handleNextPage = () => {
-        setPage(page + 1);
-        console.log('+ page')
+        dispatch(setPage(1))
     };
 
     const handlePrevPage = () => {
-        if (page > 1) {
-            setPage(page - 1);
-        }
+        dispatch(setPage(2))
     };
 
 
@@ -45,7 +42,7 @@ export const Photos = () => {
     return(
         <div className={styles.container}>
             <ul className={styles.sort_container}>
-                <SortAllPhotos currentPage={page}/>
+                <SortAllPhotos />
             </ul>
             <div>
                 <Cards/>

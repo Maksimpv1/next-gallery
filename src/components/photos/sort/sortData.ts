@@ -8,21 +8,21 @@ export const SortAllData =  [
     {
         name:'Природа',
         active:1,
-        sortValue:'Nature',
+        sortValue:'nature',
     },
     {
         name:'Города',
         active:2,
-        sortValue:'City',
+        sortValue:'city',
     },
     {
         name:'Портреты',
         active:3,
-        sortValue:'People',
+        sortValue:'people',
     },
     {
         name:'Cброс',
         active:0,
-        sortValue:'Cброс',
+        sortValue:'all',
     },
 ]
