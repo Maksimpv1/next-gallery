@@ -25,3 +25,39 @@
     justify-content: center;
     margin: 20px;
 }
+
+.container_swap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width:350px;
+    flex-wrap: nowrap;
+}
+
+.container_swap button{
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 15px;
+    transition: 0.3s ease-in-out;
+}
+
+.container_swap button:hover{
+    background-color: rgba(0, 0, 0, 0.137);    
+    transition: 0.3s ease-in-out;
+}
+
+.container_swap button:active{
+    transition: 0.2s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.473);
+}
+
+.container_swap button:disabled{
+    transition: 0.2s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.473);
+}

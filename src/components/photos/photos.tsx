@@ -16,14 +16,17 @@ export const Photos = () => {
 
     const [page, setPage] = useState<number>(1);
 
+    const [disableBtn, setDisableBtn] = useState<boolean>(false);
+
 
     useEffect(() => {
-        dispatch(getPhotos(page));
+        dispatch(getPhotos({ page, sortValue: "defaultSortValue" }));
+        if (page <= 1) {
+            setDisableBtn(true);
+        } else {
+            setDisableBtn(false);
+        }
     }, [page, dispatch]);
-    
-    useEffect(() => {
-        console.log(loadingPhotos);
-    }, [loadingPhotos]);
 
     const handleNextPage = () => {
         setPage(page + 1);
@@ -42,13 +45,17 @@ export const Photos = () => {
     return(
         <div className={styles.container}>
             <ul className={styles.sort_container}>
-                <SortAllPhotos/>
+                <SortAllPhotos currentPage={page}/>
             </ul>
             <div>
                 <Cards/>
-                {loadingPhotos ? <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'center' }}><CircularProgress /></Box> : null}
-                <button onClick={handlePrevPage}>Previous Page</button>
-                <button onClick={handleNextPage}>Next Page</button>
+                {loadingPhotos ? <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'center' }}>
+                    <CircularProgress /></Box> : null}
+                <div className={styles.container_swap}>                    
+                    <button disabled={disableBtn} onClick={handlePrevPage}>⬅</button>
+                    <span>{page}</span>
+                    <button onClick={handleNextPage}>➡</button>
+                </div>
             </div>
         </div>
     )
