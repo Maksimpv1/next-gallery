@@ -1,6 +1,6 @@
-import Image from 'next/image'
-import HomePage from '@/app/Main/page'
+
 import { Photos } from '@/components/photos/photos'
+import '../services/firebase'
 
 export default function Home() {
   return (

@@ -56,3 +56,7 @@
     transition: 0.3s ease-in-out;
     background-color: rgba(0, 0, 0, 0.445);
 }
+
+.add_cardInfo button:disabled{
+    background-color: rgba(0, 0, 0, 0.445);
+}

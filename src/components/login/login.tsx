@@ -6,6 +6,12 @@ import Link from "next/link";
 import * as yup from 'yup';
 
 import styles from './login.module.css'
+import { AppDispatch, useAppSelectorType } from "@/redux/store/store";
+import { useDispatch } from "react-redux";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { loginStateSwitch, setUser } from "@/redux/reducers/authorisation";
+import { useRouter } from "next/navigation";
+import { auth } from "@/services/firebase";
 
 interface ILoginForm {
     password:string,
@@ -14,9 +20,31 @@ interface ILoginForm {
 
 export const LoginForm = () => {
 
-    const handlerLogin = (name: string, password: string) => {
-        console.log(`name: ${ name} password: ${password}`)
-    }
+    console.log(auth)
+    
+    const dispatch = useDispatch<AppDispatch>();
+
+    const router = useRouter();
+
+    const handlerLogin = (email: string, password: string) => {
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password)
+          .then(({ user }) => {
+            dispatch(
+              setUser({
+                email: user.email,
+                uid: user.uid, 
+                token: user.refreshToken,
+              })
+            );
+            dispatch(loginStateSwitch({ LogStateBol: true }));            
+            router.push('/Profile')
+          })
+          .catch(() => alert('Неверный пользователь'));
+      };
+
+
+    const loginState = useAppSelectorType((state) => state.auth.logState)
 
     const ValidationsSchema = yup.object().shape({
         password: yup.string().typeError('Должно быть строкой').required('Обязательное поле').min(8,'Min 8 symbols'),
@@ -75,7 +103,7 @@ export const LoginForm = () => {
                                 Login
                                 </button>
                                 
-                                <Link href="/">Dont have an account?</Link>
+                                <Link href="/Registration">Dont have an account?</Link>
                                 </div> 
                             </form>
                         )}  

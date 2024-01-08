@@ -1,9 +1,19 @@
 'use client'
 
+import { FavoritCards } from './favoritCard/favCards'
 import styles from './profile.module.css'
 import { SortAllPhotos } from './sortProfile/sort'
+import { useAppSelectorType } from '@/redux/store/store'
 
-export const Profile = () => {
+  
+  export const Profile = () => {
+
+    const photoFav = useAppSelectorType((state)=> state.gallery.favorits)
+
+    const handleClick = () => {
+        console.log(photoFav)
+    }
+    
 
     return(
         <div className={styles.container}>
@@ -11,10 +21,10 @@ export const Profile = () => {
                 <SortAllPhotos/>
             </ul>
             <div>
+                <button onClick={ handleClick }>Clock</button>
+                <FavoritCards/>
                 {/* {loadingPhotos ? <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'center' }}>
                     <CircularProgress /></Box> : null} */}
-                <div className={styles.container_swap}>                    
-                </div>
             </div>
         </div>
     )

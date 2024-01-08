@@ -6,6 +6,13 @@ import { Formik,  } from "formik"
 import * as yup from 'yup';
 
 import styles from "../login/login.module.css"
+import Link from "next/link";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store/store";
+import { setUser } from "@/redux/reducers/authorisation";
+import { useRouter } from "next/navigation";
+import { auth } from "@/services/firebase";
 
 interface IRegistration {
     firstName:string,
@@ -16,9 +23,28 @@ interface IRegistration {
 }
 
 export const Registration = () => {
+    console.log(auth)
+
+    const dispatch = useDispatch<AppDispatch>()
+
+    const router = useRouter();
+
 
     const handlerRegistration = (email:string, password:string , firstName:string , lastname:string )=>{
-            console.log(`email: ${email} password: ${password} firstName: ${ firstName} lastname: ${lastname}`)
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(({ user })=>{
+                console.log(user)
+                const displayName = (firstName + ' ' + lastname) 
+                dispatch(setUser({
+                    email:user.email,
+                    uid:user.uid,
+                    token:user.refreshToken,
+                    displayName: user.displayName,
+                }))
+                router.push('/Login')
+            })
+            .catch(console.error)
     }
 
     const ValidationsSchema = yup.object().shape({
@@ -128,6 +154,7 @@ export const Registration = () => {
                                             type="submit"
                                             className={styles.login_submit}
                                         >Submit</button>
+                                        <Link href='/Login'>You have account?</Link>
                                      </div>
                                     </form>
                             )}
