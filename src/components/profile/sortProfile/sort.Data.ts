@@ -18,7 +18,7 @@ export const SortProfileValue: iSortProfileValue[] = [
     {
         name:'Reset',
         active:0,
-        sortValue:'Reser',
+        sortValue:'Reset',
     },
 
 ]
