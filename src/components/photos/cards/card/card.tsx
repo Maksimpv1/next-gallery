@@ -11,7 +11,13 @@ import { dbFirebase, auth } from "@/services/firebase";
 import { useAuth } from '@/components/registration/auth'
 
 interface Ipthoto{
-    photo:any
+    photo:{
+        urls:{
+            full:string
+        },
+        alt_description:string,
+        likes:number,
+    }
 }
 
 export const CardPhoto: React.FC<Ipthoto> = ( {photo} ) => {
@@ -25,7 +31,12 @@ export const CardPhoto: React.FC<Ipthoto> = ( {photo} ) => {
     const loginState = useAppSelectorType((state) => state.auth.logState)
 
     const addToFavorits = async () => {
-        dispatch(addPhotoToFavorits({ urls: { full: photo.urls.full }, alt_description: photo.alt_description,  likes:photo.likes}));
+        dispatch(addPhotoToFavorits({ 
+            urls: { full: photo.urls.full },
+            alt_description: photo.alt_description,
+            likes:photo.likes , 
+            date: new Date().toISOString()
+        }));
     }
    const { isAuth } = useAuth();
 

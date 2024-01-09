@@ -10,6 +10,7 @@ interface IFavoritCards{
     src:string,
     discription:string,
     likes:number,
+    date:string,
 }
 
 export const FavoritCards = (props:IFavoritCards) => {
@@ -22,6 +23,7 @@ export const FavoritCards = (props:IFavoritCards) => {
     
     return(
         <div className={styles.container}>
+            <p>{props.date}</p>
             <div className={styles.info__image}>                         
                 <Image src={props.src} 
                     alt="Your image"

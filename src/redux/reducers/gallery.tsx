@@ -25,7 +25,7 @@ const initialState:IinitialState = {
     searchValue:'all',
     isAuthRed:false,
     favorits:[],
-    profSortValue:'Reset'
+    profSortValue:'Reset',
 
 }
 
@@ -48,7 +48,7 @@ export const getPhotos = createAsyncThunk(
 
 export const addPhotoToFavorits = createAsyncThunk(
     "photos/addPhotosToFav",
-    async (photo: { urls: { full: string }; alt_description: string; likes: number }, { getState }) => {
+    async (photo: { urls: { full: string }; alt_description: string; likes: number, date: string }, { getState }) => {
         const state = getState() as { gallery: IinitialState, auth: IinitialStateAuth };
         const photoRef = doc(dbFirebase, 'favorits', state.auth.user.uid);
         
@@ -58,8 +58,8 @@ export const addPhotoToFavorits = createAsyncThunk(
             if (docSnap.exists()) {
                 await updateDoc(photoRef, {
                     favorits: state.gallery.favorits
-                        ? [...state.gallery.favorits, { url: photo.urls.full, discription: photo.alt_description, likes:photo.likes }]
-                        : [{ url: photo.urls.full, discription: photo.alt_description, likes:photo.likes }],
+                        ? [...state.gallery.favorits, { url: photo.urls.full, discription: photo.alt_description, likes:photo.likes, date: photo.date }]
+                        : [{ url: photo.urls.full, discription: photo.alt_description, likes:photo.likes , date: photo.date}],
                 });
                 console.log('Фото успешно добавлено в избранное');
             } else {
@@ -68,6 +68,7 @@ export const addPhotoToFavorits = createAsyncThunk(
                         url: photo.urls.full,
                         discription: photo.alt_description,
                         likes: photo.likes,
+                        date: photo.date,
                     }],
                 });
                 console.log('Фото успешно добавлено в избранное');

@@ -47,7 +47,7 @@ export const Header = () => {
                     const photoData = photo.data()
                     dispatch(getFavoritPhoto({ photoData }))
                     console.log("Документ пришёл")
-                    console.log(photoData.favorits)
+                    console.log(photoData)
                     
                 }else{
                     console.log("No Items in db");
@@ -59,12 +59,6 @@ export const Header = () => {
         }
     
     }, [loginState]);
-
-
-
-
-
-
 
 
     

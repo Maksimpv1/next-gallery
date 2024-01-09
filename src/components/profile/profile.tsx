@@ -6,10 +6,11 @@ import styles from './profile.module.css'
 import { SortAllPhotos } from './sortProfile/sort'
 import { useAppSelectorType } from '@/redux/store/store'
 
-interface IPhoto {
+export interface IPhoto {
     url: string;
     discription: string;
     likes: number;
+    date:string;
 }
 
   
@@ -26,7 +27,8 @@ interface IPhoto {
     useEffect(() => {
         switch (sortProf) {
             case 'Data':
-                console.log("привет");
+                const sortedByDate = [...photoFav].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+                setSortedPhotos(sortedByDate);
                 break;
             case 'Popular':
                 const sortedByLikes = [...photoFav].sort((a, b) => b.likes - a.likes);
@@ -49,7 +51,7 @@ interface IPhoto {
             <div>
                 <div className={styles.card_img__container}>
                     {sortedPhotos.map((photo: IPhoto , index:number) => (                    
-                        <FavoritCards key={index} src={photo.url} discription={photo.discription} likes={photo.likes}/>
+                        <FavoritCards key={index} src={photo.url} discription={photo.discription} likes={photo.likes} date={photo.date} />
                     ))}
                 </div>
             </div>
