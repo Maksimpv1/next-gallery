@@ -46,7 +46,7 @@ export const CardPhoto: React.FC<Ipthoto> = ( {photo} ) => {
         } else {
             setInPhotolist(false)
         }
-    },[favPhotos])
+    },[favPhotos, isAuth, photo.urls.full])
 
     const deleteFavorits = async () => {
         dispatch(deletePhotoFromFavorits(photo.urls.full));

@@ -26,7 +26,7 @@ export const SortAllPhotos = () => {
     useEffect(() => {
         dispatch(setSearchValue(querValue))
         dispatch(getPhotos({ page: page }));
-    }, [page, dispatch]);
+    }, [page, dispatch, querValue]);
 
     return (
         <>

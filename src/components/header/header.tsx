@@ -58,7 +58,7 @@ export const Header = () => {
             }
         }
     
-    }, [loginState]);
+    }, [loginState, dispatch, user?.uid]);
 
 
     
